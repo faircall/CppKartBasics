@@ -74,9 +74,15 @@ class Car
 		m_engineForce -= (carPower*dt);
 	    }
 	} else {
-	    // lambda for sign of the number
-	    float sign = [](float s){return s > 0 ? 1 : -1;}(m_engineForce);
-	    m_engineForce -= (sign*engineDecay * dt);
+	    // initially had the sign calculation as a lambda
+	    // but realized there's actually no need/benefit
+	    float sign =  m_engineForce > 0 ? 1 : -1;
+	    float epsilon = 10;
+	    if (fabsf(m_engineForce) < epsilon) {
+		m_engineForce = 0.0f;
+	    } else {
+		m_engineForce -= (sign*engineDecay * dt);
+	    }
 	}
 	if (controller.left) {
 	    m_carAngle -= (turnSpeed * dt);
