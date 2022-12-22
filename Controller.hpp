@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 
 struct Controller
 {
@@ -10,19 +11,13 @@ struct Controller
 
     void Poll()
     {
-	up = down = left = right = false;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-	    up = true;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-	    down = true;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-	    left = true;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-	    right = true;
-	}
+	up = sf::Keyboard::isKeyPressed(sf::Keyboard::Up); 
+	
+	down = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
+
+	left = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+
+	right = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
 
     }
 };
