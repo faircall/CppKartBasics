@@ -2,7 +2,7 @@
 #include <cmath>
 
 
-using namespace std;
+
 
 struct Vec2
 {
@@ -36,12 +36,7 @@ struct Vec2
 
     // (note-cooper) : overloading the * for vectors makes sense either as a dot product (or a bivector in geometric algebra). But NOT the Hadamard product!
 
-    Vec2 operator / (float s) 
-    {
-	// todo: handle division by zero
-	s = 1.0f / s; // (note-cooper) : multiplication is faster than division so we take an inverse here
-	return Vec2(this->x * s, this->y * s);
-    }
+
     
     Vec2& operator *= (const float s)
     {
@@ -52,10 +47,18 @@ struct Vec2
 
     Vec2& operator /= (float s)
     {
+	
 	s = 1.0f / s;
 	this->x *= s;
 	this->y *= s;
 	return (*this);
+    }
+
+    const Vec2 operator / (float s) 
+    {
+	// todo: handle division by zero
+
+	return Vec2(*this) /= s;
     }
 
     Vec2& operator += (const Vec2& v)
@@ -65,6 +68,11 @@ struct Vec2
 	return (*this);
     }
 
+    const Vec2 operator + (const Vec2& v)
+    {
+	return Vec2(*this) += v;
+    }
+
     Vec2& operator -= (const Vec2& v)
     {
 	this->x -= v.x;
@@ -72,31 +80,26 @@ struct Vec2
 	return (*this);
     }
 
-    float Mag()
+    const Vec2 operator - (const Vec2& v)
+    {
+	return Vec2(*this) -= v;
+    }
+
+    const float Mag()
     {
 	return sqrt(x*x + y*y);
     }
 
-    Vec2 Normalize()
+    const Vec2 Normalize()
     {
 	return Vec2(x, y) / this->Mag();
     }
 
-    void Print()
+    const void Print()
     {
-	cout << "vector value is " << this->x << "," << this->y << endl;
+	std::cout << "vector value is " << this->x << "," << this->y << "\n";
     }
 };
-
-inline Vec2 operator + (const Vec2& u, const Vec2& v)
-{
-    return Vec2(u.x + v.x, u.y + v.y);
-}
-
-inline Vec2 operator - (const Vec2& u, const Vec2& v)
-{
-    return Vec2(u.x - v.x, u.y - v.y);
-}
 
 inline float degToRad(float deg)
 {
