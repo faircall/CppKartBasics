@@ -5,7 +5,7 @@ class Track
 {
     int m_across;
     int m_down;
-    int *m_pTiles;
+    std::vector<int> m_tiles;
     int m_tileWidth;
     int m_tileHeight;
     
@@ -14,27 +14,25 @@ public:
     {
 	m_across = _across;
 	m_down = _down;
-	m_pTiles = new int[m_down*m_across];
+	m_tiles = std::vector<int>(m_across * m_down);
 	m_tileWidth = _tileWidth;
 	m_tileHeight = _tileHeight;
 	PopulateTiles();	
     }
 
     ~Track()
-    {
-	delete [] m_pTiles;
-    }
+    {}
 
     int GetTileAt(int i, int j)
     {
-	return m_pTiles[i*m_across + j];
+	return m_tiles[i*m_across + j];
     }
 
     void PopulateTiles()
     {
 	int totalTiles = m_across * m_down;
-	for (int tile = 0; tile < totalTiles; tile++) {
-	    m_pTiles[tile] = rand() % numColors;
+	for (auto& tile : m_tiles) {
+	    tile = rand() % numColors;
 	}
     }
 
