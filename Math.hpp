@@ -47,7 +47,16 @@ struct Vec2
 
     Vec2& operator /= (float s)
     {
-	
+	// possibly raise an exception here instead
+	// but not sure if that's desired in a math lib
+	const float epsilon = 0.000000001f; // just an arbitrary value for now, should do testing for f.p instability
+	if (fabsf(s) < epsilon) {
+	    // maybe return a 'special' vector with unlikely values to check against
+	    float unlikely = 1337.1337f;
+	    this->x = unlikely;
+	    this->x = -unlikely;
+	    return (*this);
+	}
 	s = 1.0f / s;
 	this->x *= s;
 	this->y *= s;
